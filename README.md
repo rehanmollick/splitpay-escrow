@@ -1,10 +1,10 @@
 # SplitPay: Decentralized Multi-Party Escrow
 
 ## Problem Statement
-Freelance and contract work often lacks trustless payment infrastructure. There is no way to prove payment agreements on-chain, clients can refuse to pay after work is delivered, manual payment splitting is error-prone, and there is no automatic refund if work isn't delivered. Centralized escrow services charge high fees and require trust.
+Freelance and contract work often lacks trustless payment infrastructure. There is no way to prove payment agreements on-chain, clients can refuse to pay after work is delivered, manual payment splitting is error-prone, and there is no guaranteed refund if work isn't delivered. Centralized escrow services charge high fees and require trust.
 
 ## Solution Statement
-SplitPay is a decentralized escrow protocol for Ethereum that enables trustless, multi-party payment agreements. Funds are locked in a smart contract with a customizable deadline, payments are split automatically to multiple recipients based on predefined percentages, and refunds are executed if work is not delivered by the deadline. All agreements are provable and immutable on-chain. No intermediaries, no fees, fully transparent.
+SplitPay is a decentralized escrow protocol for Ethereum that enables trustless, multi-party payment agreements. Funds are locked in a smart contract with a customizable deadline, payments are split automatically to multiple recipients based on predefined percentages, and refunds can be executed if work is not delivered by the deadline. All agreements are provable and immutable on-chain. No intermediaries, no fees, fully transparent.
 
 ---
 This project was created mainly to learn solidity fundamentals and understand blockchain. 
