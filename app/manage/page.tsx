@@ -116,7 +116,7 @@ function ManageContractPageInner() {
     void connectOnLoad();
   }, []);
 
-  // Optionally suppress the generic success message
+  // Reads tbe contract data
   const loadContractData = async (addr: string, suppressSuccessMessage = false) => {
     if (!window.ethereum) {
       setError("MetaMask not detected. Please install MetaMask to continue.");
@@ -127,11 +127,13 @@ function ManageContractPageInner() {
     setIsLoadingContract(true);
 
     try {
+      // Create a contract instance to interact with the deployed smart contract
       const provider = new BrowserProvider(window.ethereum as any);
       const signer = await provider.getSigner();
       const contract = new Contract(addr, CONTRACT_ABI as any, signer);
       setContractInstance(contract);
 
+      // Read contract state variables (calls to the blockchain)
       const [stateRaw, deadlineRaw, buyerAddr, balanceRaw] =
         await Promise.all([
           contract.currentState(),
@@ -202,10 +204,11 @@ function ManageContractPageInner() {
     setSuccessMessage(null);
     try {
       setTxLoading("deposit");
+      // Calling the deposit function on the smart contract (sends a transaction)
       const tx = await contractInstance.deposit({
         value: parseEther(depositAmount),
       });
-      await tx.wait();
+      await tx.wait(); // Waiting on transaction to be mined
   setSuccessMessage("Deposit successful.");
   await loadContractData(contractInstance.target as string, true);
     } catch (e: any) {
@@ -226,6 +229,7 @@ function ManageContractPageInner() {
     setSuccessMessage(null);
     try {
       setTxLoading("confirm");
+      // Calling the confirmDelivery() function on the smart contract 
       const tx = await contractInstance.confirmDelivery();
       await tx.wait();
   setSuccessMessage("Delivery confirmed.");
@@ -250,6 +254,7 @@ function ManageContractPageInner() {
     setSuccessMessage(null);
     try {
       setTxLoading("refund");
+      // Call the refund() function on the smart contract
       const tx = await contractInstance.refund();
       await tx.wait();
   setSuccessMessage("Refund successful. Funds returned to buyer.");

@@ -76,12 +76,14 @@ export default function CreateContractPage() {
       setIsConnecting(true);
       setError(null);
       try {
+        // Connecting to MetaMask and getting user's account
         const provider = new BrowserProvider(window.ethereum as any);
         await provider.send("eth_requestAccounts", []);
         const signer = await provider.getSigner();
         const addr = await signer.getAddress();
         setAccount(addr);
 
+        // Getting the current network to check if its Sepolia testnet 
         const network = await provider.getNetwork();
         setNetworkName(network.name ?? null);
         setChainId(Number(network.chainId));
@@ -121,6 +123,7 @@ export default function CreateContractPage() {
     );
   };
 
+  //Bridge between the frontend and the smartcontract 
   const handleDeploy = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -143,9 +146,7 @@ export default function CreateContractPage() {
       const signer = await provider.getSigner();
 
 
-      // Use ethers v6 getAddress for payees, convert shares and days to BigInt
-      // Import getAddress from ethers at the top of the file
-      // import { getAddress } from "ethers";
+      // Preparing arguments for the contract contructor 
       const payees = recipients.map((r) => getAddress(r.address));
       const shares = recipients.map((r) => BigInt(r.share));
       const days = BigInt(daysUntilDeadline);
@@ -163,6 +164,7 @@ export default function CreateContractPage() {
         ],
       });
 
+      // Deploying the smart contract
       const factory = new ContractFactory(
         CONTRACT_ABI as any,
         CONTRACT_BYTECODE,
@@ -176,6 +178,7 @@ export default function CreateContractPage() {
         days,
       );
 
+      // Waiting on MetaMask for contract to be deployed 
       const deploymentTx = contract.deploymentTransaction();
       if (deploymentTx) {
         await deploymentTx.wait();
