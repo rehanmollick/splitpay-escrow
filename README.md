@@ -9,6 +9,10 @@ SplitPay is a decentralized escrow protocol for Ethereum that enables trustless,
 ---
 This project was created mainly to learn solidity fundamentals and understand blockchain. 
 
+## Smart Contract Development and Testing
+The SplitPaymentEscrow smart contract was developed and tested using the Remix IDE on the Remix virtual machine environment. 
+You can deploy and interact with the contract directly in Remix by copying the Solidity file from `contracts/SplitPaymentEscrow.sol`.
+
 ## Features
 - Trustless escrow for freelance/contract work
 - Automatic payment splitting to multiple recipients
@@ -21,10 +25,6 @@ This project was created mainly to learn solidity fundamentals and understand bl
 - ethers.js (frontend contract interaction)
 - Next.js 14 (React, TypeScript, Tailwind CSS)
 - Sepolia Ethereum testnet
-
-## Smart Contract Development and Testing
-The SplitPaymentEscrow smart contract was developed and tested using the Remix IDE on the Remix virtual machine environment. 
-You can deploy and interact with the contract directly in Remix by copying the Solidity file from `contracts/SplitPaymentEscrow.sol`.
 
 ## Getting Started
 If using the live demo, you should have MetaMask downloaded and be on the Sepolia testnet. Ideally you have 3 or more accounts, each with SepoliaETH tokens so that you can functionally test the app. 
