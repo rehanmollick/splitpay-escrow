@@ -1,16 +1,23 @@
 // SPDX-License-Identifier: MIT
-
+// Author: Md Rehan Mollick
+// Date: Dec 2025
+//
+// A simple escrow contract for splitting payments between multiple recipients.
+// The buyer deposits ETH, confirms delivery, and funds are split automatically.
+// If delivery is not confirmed by the deadline, the buyer can refund their ETH.
 pragma solidity ^0.8.24;
 
 contract SplitPaymentEscrow {
+    // Possible states of the contract
     enum State { AWAITING_PAYMENT, AWAITING_DELIVERY, COMPLETE }
 
-    State public currentState;
-    address public buyer;
-    address payable[] public payees;
-    uint[] public shares;
-    uint public deadline;
+    State public currentState; // Tracks current state
+    address public buyer; // Tracks the person who created the contract
+    address payable[] public payees; // List of recipents 
+    uint[] public shares; // Corresponding shares of the recipients
+    uint public deadline; // Sets the deadline
 
+    // Event logging for communication with the frontend
     event Deposited(address indexed buyer, uint256 amount, uint256 timestamp);
     event DeliveryConfirmed(address indexed buyer, uint256 totalAmount);
     event Refunded(address indexed buyer, uint256 amount);
@@ -39,6 +46,7 @@ contract SplitPaymentEscrow {
         _;
     }
 
+    // Function to deposit ETH, which starts the escrow 
     function deposit() external payable onlyBuyer {
         require(currentState == State.AWAITING_PAYMENT, "Already paid");
         require(msg.value > 0, "Must send ETH");
@@ -47,10 +55,12 @@ contract SplitPaymentEscrow {
         emit Deposited(msg.sender, msg.value, block.timestamp);
     }
 
+    // Prevents accidental ETH transfers
     receive() external payable {
     revert("SplitPaymentEscrow: ETH must be sent via deposit()");
     }
 
+    // Buyer confirms delivery, funds are split to recipients 
     function confirmDelivery()  external onlyBuyer {
         require(currentState == State.AWAITING_DELIVERY, "Cannot confirm delivery");
         
@@ -66,6 +76,7 @@ contract SplitPaymentEscrow {
         emit DeliveryConfirmed(msg.sender, totalAmount);
     }
 
+    // Buyer can refund if deadline passes and delivery not confirmed
     function refund() external onlyBuyer {
         require(currentState == State.AWAITING_DELIVERY, "Cannot refund");
         require(block.timestamp > deadline, "Deadline not passed yet");
@@ -80,6 +91,7 @@ contract SplitPaymentEscrow {
         emit Refunded(msg.sender, totalAmount);
     }
 
+    // View function for front end to check current balance 
     function getBalance() external view returns (uint256) {
         return address(this).balance;
     }
