@@ -7,8 +7,9 @@ Freelance and contract work often lacks trustless payment infrastructure. There 
 SplitPay is a decentralized escrow protocol for Ethereum that enables trustless, multi-party payment agreements. Funds are locked in a smart contract with a customizable deadline, payments are split automatically to multiple recipients based on predefined percentages, and refunds are executed if work is not delivered by the deadline. All agreements are provable and immutable on-chain. No intermediaries, no fees, fully transparent.
 
 ---
-Live demo: [https://splitpay-escrow-pwqu-bbx53h5y2-rehanmollicks-projects.vercel.app/](https://splitpay-escrow-13jh.vercel.app/)
 Built with Solidity and deployed on the Sepolia testnet, this demo includes a Next.js frontend for easy interaction.
+Live demo: [https://splitpay-escrow-pwqu-bbx53h5y2-rehanmollicks-projects.vercel.app/](https://splitpay-escrow-13jh.vercel.app/)
+
 
 ## Features
 - Trustless escrow for freelance/contract work
