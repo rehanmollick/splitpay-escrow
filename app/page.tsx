@@ -1,7 +1,6 @@
 "use client";
 export const dynamic = "force-dynamic";
 
-
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { BrowserProvider, ContractFactory, isAddress, getAddress } from "ethers";
@@ -27,6 +26,8 @@ export default function CreateContractPage() {
   const [manageAddress, setManageAddress] = useState<string>("");
   const [manageInputError, setManageInputError] = useState<string | null>(null);
   const [networkWarning, setNetworkWarning] = useState<string | null>(null);
+  const [networkName, setNetworkName] = useState<string | null>(null);
+  const [chainId, setChainId] = useState<number | null>(null);
   const [recipients, setRecipients] = useState<RecipientRow[]>([
     { address: "", share: "" },
   ]);
@@ -82,6 +83,8 @@ export default function CreateContractPage() {
         setAccount(addr);
 
         const network = await provider.getNetwork();
+        setNetworkName(network.name ?? null);
+        setChainId(Number(network.chainId));
         console.log("[DEBUG] Detected chainId:", network.chainId, "(type:", typeof network.chainId, ")");
         if (Number(network.chainId) !== SEPOLIA_CHAIN_ID) {
           setNetworkWarning(
@@ -223,7 +226,9 @@ export default function CreateContractPage() {
               </span>
             )}
           </div>
-          <div className="text-xs text-gray-400">Network: Sepolia (expected)</div>
+          <div className="text-xs text-gray-400">
+            Network: {chainId === SEPOLIA_CHAIN_ID ? "Sepolia (expected)" : networkName ? `${networkName} (chainId: ${chainId})` : "Unknown"}
+          </div>
         </div>
       </header>
 
@@ -390,44 +395,14 @@ export default function CreateContractPage() {
           </p>
         </section>
       )}
-      {/* Quick access to Manage Contract (now at the very bottom) */}
-      <div className="max-w-xl mx-auto pt-2 pb-8 flex flex-col items-center">
-        <div className="w-full bg-gray-800/80 rounded-lg p-4 mt-6 flex flex-col items-center border border-gray-700">
-          <div className="font-semibold mb-2 text-lg">Already have a contract?</div>
-          <form
-            className="flex flex-col sm:flex-row gap-2 w-full items-center"
-            onSubmit={e => {
-              e.preventDefault();
-              if (!manageAddress || !isAddress(manageAddress)) {
-                setManageInputError("Enter a valid contract address");
-                return;
-              }
-              setManageInputError(null);
-              window.location.href = `/manage?address=${manageAddress}`;
-            }}
-          >
-            <input
-              className="flex-1 rounded bg-gray-900 border border-gray-700 px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Paste contract address..."
-              value={manageAddress}
-              onChange={e => {
-                setManageAddress(e.target.value);
-                setManageInputError(null);
-              }}
-              spellCheck={false}
-            />
-            <button
-              type="submit"
-              className="rounded bg-blue-600 hover:bg-blue-700 px-4 py-2 font-semibold text-white disabled:bg-gray-600"
-              disabled={!manageAddress || !isAddress(manageAddress)}
-            >
-              Go to Manage
-            </button>
-          </form>
-          {manageInputError && (
-            <div className="text-red-400 text-sm mt-1">{manageInputError}</div>
-          )}
-        </div>
+      {/* Manage Contracts button at the bottom */}
+      <div className="max-w-xl mx-auto pt-0 pb-4 flex flex-col items-center">
+        <button
+          className="w-full rounded bg-blue-600 hover:bg-blue-700 px-4 py-2 font-semibold text-white mt-4"
+          onClick={() => { window.location.href = "/manage"; }}
+        >
+          Manage Contracts
+        </button>
       </div>
     </main>
   );

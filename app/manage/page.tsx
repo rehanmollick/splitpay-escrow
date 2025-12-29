@@ -116,7 +116,8 @@ function ManageContractPageInner() {
     void connectOnLoad();
   }, []);
 
-  const loadContractData = async (addr: string) => {
+  // Optionally suppress the generic success message
+  const loadContractData = async (addr: string, suppressSuccessMessage = false) => {
     if (!window.ethereum) {
       setError("MetaMask not detected. Please install MetaMask to continue.");
       return;
@@ -161,7 +162,9 @@ function ManageContractPageInner() {
       }
       setRecipients(loadedRecipients);
 
-      setSuccessMessage("Contract loaded successfully.");
+      if (!suppressSuccessMessage) {
+        setSuccessMessage("Contract loaded successfully.");
+      }
     } catch (e: any) {
       console.error(e);
       setContractInstance(null);
@@ -203,8 +206,8 @@ function ManageContractPageInner() {
         value: parseEther(depositAmount),
       });
       await tx.wait();
-      setSuccessMessage("Deposit successful.");
-      await loadContractData(contractInstance.target as string);
+  setSuccessMessage("Deposit successful.");
+  await loadContractData(contractInstance.target as string, true);
     } catch (e: any) {
       console.error(e);
       if (e?.code === "ACTION_REJECTED") {
@@ -225,8 +228,8 @@ function ManageContractPageInner() {
       setTxLoading("confirm");
       const tx = await contractInstance.confirmDelivery();
       await tx.wait();
-      setSuccessMessage("Delivery confirmed and funds distributed.");
-      await loadContractData(contractInstance.target as string);
+  setSuccessMessage("Delivery confirmed.");
+  await loadContractData(contractInstance.target as string, true);
     } catch (e: any) {
       console.error(e);
       if (e?.code === "ACTION_REJECTED") {
@@ -249,8 +252,8 @@ function ManageContractPageInner() {
       setTxLoading("refund");
       const tx = await contractInstance.refund();
       await tx.wait();
-      setSuccessMessage("Refund successful. Funds returned to buyer.");
-      await loadContractData(contractInstance.target as string);
+  setSuccessMessage("Refund successful. Funds returned to buyer.");
+  await loadContractData(contractInstance.target as string, true);
     } catch (e: any) {
       console.error(e);
       if (e?.code === "ACTION_REJECTED") {
@@ -483,9 +486,9 @@ function ManageContractPageInner() {
         </section>
       )}
       {/* Add Create New Contract button at the bottom */}
-      <div className="max-w-xl mx-auto pt-2 pb-8 flex flex-col items-center">
+      <div className="max-w-xl mx-auto pt-0 pb-4 flex flex-col items-center">
         <button
-          className="w-full rounded bg-green-600 hover:bg-green-700 px-4 py-2 font-semibold text-white mt-8"
+          className="w-full rounded bg-green-600 hover:bg-green-700 px-4 py-2 font-semibold text-white mt-4"
           onClick={() => { window.location.href = "/"; }}
         >
           Create New Contract
