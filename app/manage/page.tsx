@@ -482,6 +482,15 @@ function ManageContractPageInner() {
           </div>
         </section>
       )}
+      {/* Add Create New Contract button at the bottom */}
+      <div className="max-w-xl mx-auto pt-2 pb-8 flex flex-col items-center">
+        <button
+          className="w-full rounded bg-green-600 hover:bg-green-700 px-4 py-2 font-semibold text-white mt-8"
+          onClick={() => { window.location.href = "/"; }}
+        >
+          Create New Contract
+        </button>
+      </div>
     </main>
   );
 }
