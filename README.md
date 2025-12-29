@@ -24,7 +24,7 @@ Built with Solidity and deployed on the Sepolia testnet, this demo includes a Ne
 - Sepolia Ethereum testnet
 
 ## Getting Started
-You can use the live demo at: https://splitpay-escrow-pwqu-bbx53h5y2-rehanmollicks-projects.vercel.app/
+You can use the live demo at: [https://splitpay-escrow-pwqu-bbx53h5y2-rehanmollicks-projects.vercel.app/](https://splitpay-escrow-13jh.vercel.app/)
 
 Or run locally:
 1. Clone this repository
