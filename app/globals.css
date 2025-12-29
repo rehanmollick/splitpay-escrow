@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-900 text-white;
+}
+
+a {
+  @apply text-blue-400 hover:text-blue-300 underline;
+}
+
+button:disabled {
+  @apply opacity-60 cursor-not-allowed;
+}
+
+
