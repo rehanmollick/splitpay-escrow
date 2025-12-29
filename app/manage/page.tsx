@@ -2,7 +2,7 @@
 "use client";
 export const dynamic = "force-dynamic";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   BrowserProvider,
@@ -26,7 +26,8 @@ type RecipientInfo = {
 
 type ContractState = 0 | 1 | 2;
 
-export default function ManageContractPage() {
+
+function ManageContractPageInner() {
   const searchParams = useSearchParams();
 
   const [account, setAccount] = useState<string | null>(null);
@@ -363,7 +364,7 @@ export default function ManageContractPage() {
                     deadlinePassed ? "text-red-300" : "text-gray-100"
                   }
                 >
-                  {deadlineDate.toLocaleString()}{" "}
+                  {deadlineDate.toLocaleString()} {" "}
                   {deadlinePassed && "(passed)"}
                 </span>
               ) : (
@@ -482,6 +483,14 @@ export default function ManageContractPage() {
         </section>
       )}
     </main>
+  );
+}
+
+export default function ManageContractPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ManageContractPageInner />
+    </Suspense>
   );
 }
 
