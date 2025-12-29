@@ -8,6 +8,7 @@ SplitPay is a decentralized escrow protocol for Ethereum that enables trustless,
 
 ---
 Built with Solidity and deployed on the Sepolia testnet, this demo includes a Next.js frontend for easy interaction.
+
 Live demo: [https://splitpay-escrow-pwqu-bbx53h5y2-rehanmollicks-projects.vercel.app/](https://splitpay-escrow-13jh.vercel.app/)
 
 
