@@ -5,7 +5,7 @@
 // A simple escrow contract for splitting payments between multiple recipients.
 // The buyer deposits ETH, confirms delivery, and funds are split automatically.
 // If delivery is not confirmed by the deadline, the buyer can refund their ETH.
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.24; 
 
 contract SplitPaymentEscrow {
     // Possible states of the contract
